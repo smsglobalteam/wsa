@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AppForm: typeof import('./../src/components/app/form.vue')['default']
+    AppFormItems: typeof import('./../src/components/app/form-items.vue')['default']
     AppHeaderItem: typeof import('./../src/components/app/header-item.vue')['default']
     AppRadioButton: typeof import('./../src/components/app/radio-button.vue')['default']
     AppSider: typeof import('./../src/components/app/sider.vue')['default']
@@ -29,7 +31,9 @@ declare module 'vue' {
     NA: typeof import('naive-ui')['NA']
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
+    NCheckbox: typeof import('naive-ui')['NCheckbox']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDatePicker: typeof import('naive-ui')['NDatePicker']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NDivider: typeof import('naive-ui')['NDivider']
     NForm: typeof import('naive-ui')['NForm']
@@ -46,8 +50,11 @@ declare module 'vue' {
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
     NP: typeof import('naive-ui')['NP']
+    NRadio: typeof import('naive-ui')['NRadio']
+    NRadioGroup: typeof import('naive-ui')['NRadioGroup']
     NSelect: typeof import('naive-ui')['NSelect']
     NSelectOption: typeof import('naive-ui')['NSelectOption']
+    NSpace: typeof import('naive-ui')['NSpace']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

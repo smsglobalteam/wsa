@@ -12,8 +12,8 @@
     <n-divider />
   </div>
   <div class="flex justify-end">
-    <router-link to="/plan">
-      <n-button size="large" type="primary">
+    <router-link v-slot="{ navigate }" custom to="/plan">
+      <n-button size="large" type="primary" @click="navigate">
         Next
       </n-button>
     </router-link>

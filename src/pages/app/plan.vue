@@ -82,13 +82,13 @@ const formValue = ref({})
     <n-divider />
   </div>
   <div class="flex justify-between">
-    <router-link to="/">
-      <n-button size="large">
+    <router-link v-slot="{ navigate }" custom to="/">
+      <n-button size="large" @click="navigate">
         Back
       </n-button>
     </router-link>
-    <router-link to="/plan">
-      <n-button size="large" type="primary">
+    <router-link v-slot="{ navigate }" custom to="/information">
+      <n-button size="large" type="primary" @click="navigate">
         Next
       </n-button>
     </router-link>
