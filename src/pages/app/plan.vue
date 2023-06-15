@@ -39,7 +39,109 @@ const terms = [
 const plans = [
   {
     label: 'Pivotel 55 Iridium US',
-    value: 0,
+    value: 'Pivotel 55 Iridium US',
+  },
+  {
+    label: 'Pivotel 75 Iridium US',
+    value: 'Pivotel 75 Iridium US',
+  },
+  {
+    label: 'Pivotel 130 Iridium US',
+    value: 'Pivotel 130 Iridium US',
+  },
+  {
+    label: 'Pivotel 160 Iridium US',
+    value: 'Pivotel 160 Iridium US',
+  },
+  {
+    label: 'Pivotel 250 Iridium US',
+    value: 'Pivotel 250 Iridium US',
+  },
+  {
+    label: 'Pivotel 400 Iridium US',
+    value: 'Pivotel 400 Iridium US',
+  },
+  {
+    label: 'Pivotel 550 Iridium US',
+    value: 'Pivotel 550 Iridium US',
+  },
+  {
+    label: 'Pivotel 750 Iridium US',
+    value: 'Pivotel 750 Iridium US',
+  },
+  // Inmarsat
+  {
+    label: 'Pivotel 35 Inmarsat US',
+    value: 'Pivotel 35 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 55 Inmarsat US',
+    value: 'Pivotel 55 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 75 Inmarsat US',
+    value: 'Pivotel 75 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 130 Inmarsat US',
+    value: 'Pivotel 130 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 160 Inmarsat US',
+    value: 'Pivotel 160 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 250 Inmarsat US',
+    value: 'Pivotel 250 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 400 Inmarsat US',
+    value: 'Pivotel 400 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 550 Inmarsat US',
+    value: 'Pivotel 550 Inmarsat US',
+  },
+  {
+    label: 'Pivotel 750 Inmarsat US',
+    value: 'Pivotel 750 Inmarsat US',
+  },
+  // Thuraya
+  {
+    label: 'Pivotel 35 Thuraya US',
+    value: 'Pivotel 35 Thuraya US',
+  },
+  {
+    label: 'Pivotel 55 Thuraya US',
+    value: 'Pivotel 55 Thuraya US',
+  },
+  {
+    label: 'Pivotel 75 Thuraya US',
+    value: 'Pivotel 75 Thuraya US',
+  },
+  {
+    label: 'Pivotel 130 Thuraya US',
+    value: 'Pivotel 130 Thuraya US',
+  },
+  {
+    label: 'Pivotel 160 Thuraya US',
+    value: 'Pivotel 160 Thuraya US',
+  },
+  {
+    label: 'Pivotel 250 Thuraya US',
+    value: 'Pivotel 250 Thuraya US',
+  },
+  {
+    label: 'Pivotel 400 Thuraya US',
+    value: 'Pivotel 400 Thuraya US',
+  },
+  {
+    label: 'Pivotel 550 Thuraya US',
+    value: 'Pivotel 550 Thuraya US',
+  },
+  {
+    label: 'Pivotel 750 Thuraya US',
+    value: 'Pivotel 750 Thuraya US',
   },
 ]
 
