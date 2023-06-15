@@ -13,6 +13,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/pub/wsa/',
   plugins: [
     VueRouter({
       dts: 'types/typed-router.d.ts',
