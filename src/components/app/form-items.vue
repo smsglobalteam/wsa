@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormItemRule, SelectOption } from 'naive-ui'
 
+type RadioOption = string | number | boolean
+
 interface FormItem {
   label: string
   placeholder?: string
@@ -8,7 +10,11 @@ interface FormItem {
   rules?: FormItemRule
 }
 
-// Add form item checkbox
+interface FormItemCheckbox extends Omit<FormItem, 'placeholder'> {
+  type: 'checkbox'
+  checkedValue: RadioOption
+  uncheckedValue: RadioOption
+}
 
 interface FormItemDate extends FormItem {
   type: 'date'
@@ -20,7 +26,10 @@ interface FormItemInput extends FormItem {
 
 interface FormItemRadio extends FormItem {
   type: 'radio'
-  options: SelectOption[]
+  options: {
+    label: string
+    value: RadioOption
+  }[]
 }
 
 interface FormItemSelect extends FormItem {
@@ -38,7 +47,7 @@ interface FormSpacer {
   span: number
 }
 
-type FormItems = FormItemDate | FormItemInput | FormItemRadio | FormItemSelect | FormSpacer | FormItemTextarea
+type FormItems = FormItemCheckbox | FormItemDate | FormItemInput | FormItemRadio | FormItemSelect | FormSpacer | FormItemTextarea
 
 export interface FormSchema {
   [path: string]: FormItems
@@ -53,7 +62,9 @@ const modelValue = defineModel()
 
 <template>
   <template v-for="[path, item] in Object.entries(schema)" :key="path">
-    <n-form-item v-if="item.type !== 'checkbox' || item.type !== 'space'" class="col-span-3" :label="item.label" :path="path" :rule="item.rules" :style="`grid-column: span ${item.span || 12} / span ${item.span || 12}`">
+    <n-form-item v-if="item.type !== 'space'" class="col-span-4" :label="item.label" :path="path" :rule="item.rules" :show-label="item.type !== 'checkbox'" :style="`grid-column: span ${item.span || 12} / span ${item.span || 12}`">
+      <n-checkbox v-if="item.type === 'checkbox'" v-model:checked="modelValue[path]" :label="item.label" />
+
       <n-date-picker v-if="item.type === 'date'" v-model:formatted-value="modelValue[path]" :placeholder="item.placeholder || 'YYYY-MM-DD'" type="date" value-format="yyyy-MM-dd" />
 
       <n-input v-if="item.type === 'input'" v-model:value="modelValue[path]" clearable :placeholder="item.placeholder || ''" />
@@ -73,6 +84,7 @@ const modelValue = defineModel()
 
       <n-input v-if="item.type === 'textarea'" v-model:value="modelValue[path]" :class="item.mono && '!font-mono'" clearable :placeholder="item.placeholder || ''" type="textarea" />
     </n-form-item>
-    <div v-else class="invisible" :style="`grid-column: span ${item.span || 12} / span ${item.span || 12}`" />
+
+    <div v-else-if="item.type === 'space'" class="invisible" :style="`grid-column: span ${item.span || 12} / span ${item.span || 12}`" />
   </template>
 </template>

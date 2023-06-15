@@ -101,23 +101,23 @@ const billingAddressSchema = {
 
 const shippingAddressSchema = computed(() => {
   const same_as_billing = {
-    same_as_billing: {
-      type: 'radio',
-      label: 'Same as Primary Address',
-      span: 12,
-      options: [
-        { label: 'Yes', value: true },
-        { label: 'No', value: false },
-      ],
-      rules: {
-        required: true,
-      },
-    },
     // same_as_billing: {
-    //   type: 'checkbox',
+    //   type: 'radio',
     //   label: 'Same as Primary Address',
     //   span: 12,
+    //   options: [
+    //     { label: 'Yes', value: true },
+    //     { label: 'No', value: false },
+    //   ],
+    //   rules: {
+    //     required: true,
+    //   },
     // },
+    same_as_billing: {
+      type: 'checkbox',
+      label: 'Same as Primary Address',
+      span: 12,
+    },
   }
   if (formValue.value.same_as_billing)
     return same_as_billing
