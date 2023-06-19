@@ -1,151 +1,74 @@
 <script setup lang="tsx">
-const types = [
-  {
-    label: 'Postpaid',
-    value: 'postpaid',
-  },
-  {
-    label: 'Prepaid',
-    value: 'prepaid',
-  },
-]
+const types = ['Postpaid', 'Prepaid'].map((type) => {
+  return {
+    label: type,
+    value: type,
+  }
+})
 
-const networks = [
-  {
-    label: 'Iridium',
-    value: 'iridium',
-  },
-  {
-    label: 'Inmarsat',
-    value: 'inmarsat',
-  },
-  {
-    label: 'Thuraya',
-    value: 'thuraya',
-  },
-]
+const networks = ['Iridium', 'Inmarsat', 'Thuraya'].map((network) => {
+  return {
+    label: network,
+    value: network,
+  }
+})
 
-const terms = [
-  {
-    label: '12 Months',
-    value: '0',
-  },
-  {
-    label: 'Month to Month',
-    value: '1',
-  },
-]
+const terms = ['12 Months', 'Month to Month'].map((term) => {
+  return {
+    label: term,
+    value: term,
+  }
+})
 
-const plans = [
-  {
-    label: 'Pivotel 55 Iridium US',
-    value: 'Pivotel 55 Iridium US',
-  },
-  {
-    label: 'Pivotel 75 Iridium US',
-    value: 'Pivotel 75 Iridium US',
-  },
-  {
-    label: 'Pivotel 130 Iridium US',
-    value: 'Pivotel 130 Iridium US',
-  },
-  {
-    label: 'Pivotel 160 Iridium US',
-    value: 'Pivotel 160 Iridium US',
-  },
-  {
-    label: 'Pivotel 250 Iridium US',
-    value: 'Pivotel 250 Iridium US',
-  },
-  {
-    label: 'Pivotel 400 Iridium US',
-    value: 'Pivotel 400 Iridium US',
-  },
-  {
-    label: 'Pivotel 550 Iridium US',
-    value: 'Pivotel 550 Iridium US',
-  },
-  {
-    label: 'Pivotel 750 Iridium US',
-    value: 'Pivotel 750 Iridium US',
-  },
-  // Inmarsat
-  {
-    label: 'Pivotel 35 Inmarsat US',
-    value: 'Pivotel 35 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 55 Inmarsat US',
-    value: 'Pivotel 55 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 75 Inmarsat US',
-    value: 'Pivotel 75 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 130 Inmarsat US',
-    value: 'Pivotel 130 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 160 Inmarsat US',
-    value: 'Pivotel 160 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 250 Inmarsat US',
-    value: 'Pivotel 250 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 400 Inmarsat US',
-    value: 'Pivotel 400 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 550 Inmarsat US',
-    value: 'Pivotel 550 Inmarsat US',
-  },
-  {
-    label: 'Pivotel 750 Inmarsat US',
-    value: 'Pivotel 750 Inmarsat US',
-  },
-  // Thuraya
-  {
-    label: 'Pivotel 35 Thuraya US',
-    value: 'Pivotel 35 Thuraya US',
-  },
-  {
-    label: 'Pivotel 55 Thuraya US',
-    value: 'Pivotel 55 Thuraya US',
-  },
-  {
-    label: 'Pivotel 75 Thuraya US',
-    value: 'Pivotel 75 Thuraya US',
-  },
-  {
-    label: 'Pivotel 130 Thuraya US',
-    value: 'Pivotel 130 Thuraya US',
-  },
-  {
-    label: 'Pivotel 160 Thuraya US',
-    value: 'Pivotel 160 Thuraya US',
-  },
-  {
-    label: 'Pivotel 250 Thuraya US',
-    value: 'Pivotel 250 Thuraya US',
-  },
-  {
-    label: 'Pivotel 400 Thuraya US',
-    value: 'Pivotel 400 Thuraya US',
-  },
-  {
-    label: 'Pivotel 550 Thuraya US',
-    value: 'Pivotel 550 Thuraya US',
-  },
-  {
-    label: 'Pivotel 750 Thuraya US',
-    value: 'Pivotel 750 Thuraya US',
-  },
-]
+const options = ['Sample 1', 'Sample 2', 'Sample 3'].map((option) => {
+  return {
+    label: option,
+    value: option,
+  }
+})
 
+function mockPlanGenerator() {
+  const plans = []
+  types.forEach((type) => {
+    networks.forEach((network) => {
+      terms.forEach((term) => {
+        [55, 75, 150, 250, 350].forEach((amount) => {
+          plans.push({
+            type: type.value,
+            network: network.value,
+            term: term.value,
+            name: `Placeholder ${amount} ${term.label} ${network.label} ${type.label}`,
+          })
+        })
+      })
+    })
+  })
+  return plans
+}
+const plans = mockPlanGenerator()
 const formValue = ref({})
+const filteredPlans = computed(() => {
+  return plans.filter((plan) => {
+    return (
+      plan.type === formValue.value.type
+      && plan.network === formValue.value.network
+      && plan.term === formValue.value.term
+    )
+  }).map((plan) => {
+    return {
+      label: plan.name,
+      value: plan.name,
+    }
+  },
+  )
+})
+
+watch(
+  [() => formValue.value.type, () => formValue.value.network, () => formValue.value.term],
+  () => {
+    formValue.value.plan = undefined
+  },
+)
 </script>
 
 <template>
@@ -175,11 +98,24 @@ const formValue = ref({})
       <n-h3>Plan</n-h3>
       <n-form-item label="Plan">
         <n-select
-          v-model:value="formValue.plan" :options="plans" size="large"
-        />
+          :key="`${formValue.type + formValue.network + formValue.term}key`"
+          v-model:value="formValue.plan"
+          :options="filteredPlans"
+          placeholder="Select plan" size="large"
+        >
+          <template #empty>
+            Please fill the above options first.
+          </template>
+        </n-select>
       </n-form-item>
       <n-h3>Options</n-h3>
-      <n-form-item label="Options" />
+      <n-form-item label="Options">
+        <n-checkbox-group v-model:value="formValue.options" size="large">
+          <div class="flex flex-col gap-2">
+            <n-checkbox v-for="item in options" :key="item.value" v-bind="item" />
+          </div>
+        </n-checkbox-group>
+      </n-form-item>
     </n-form>
     <n-divider />
   </div>

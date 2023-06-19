@@ -7,11 +7,13 @@ const themeOverrides: GlobalThemeOverrides = {
     primaryColorPressed: '#5b0f6a',
     primaryColorHover: '#a24ab2',
     primaryColorSuppl: '#a24ab2',
+    borderColor: '#909090',
+    inputColor: '#f1f4ff',
   },
   Typography: {
     headerFontSize1: '26px',
-    headerFontWeight: 700
-  }
+    headerFontWeight: 700,
+  },
 }
 </script>
 

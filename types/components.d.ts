@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppForm: typeof import('./../src/components/app/form.vue')['default']
+    AppFormH2: typeof import('./../src/components/app/form-h2.vue')['default']
     AppFormItems: typeof import('./../src/components/app/form-items.vue')['default']
     AppHeaderItem: typeof import('./../src/components/app/header-item.vue')['default']
     AppRadioButton: typeof import('./../src/components/app/radio-button.vue')['default']
@@ -16,6 +17,7 @@ declare module 'vue' {
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
     NCheckbox: typeof import('naive-ui')['NCheckbox']
+    NCheckboxGroup: typeof import('naive-ui')['NCheckboxGroup']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDatePicker: typeof import('naive-ui')['NDatePicker']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']

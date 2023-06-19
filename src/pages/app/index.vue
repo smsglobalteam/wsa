@@ -7,7 +7,7 @@
     <n-p>Placeholder text</n-p>
     <n-p>If you have a dealer code, please enter it below:</n-p>
     <n-form-item class="w-96" :show-label="false">
-      <n-input placeholder="Dealer Code" />
+      <n-input placeholder="Dealer Code" size="large" />
     </n-form-item>
     <n-divider />
   </div>

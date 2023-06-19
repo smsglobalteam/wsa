@@ -14,7 +14,7 @@ const personalInformationSchema: FormSchema = {
   },
   full_name: {
     type: 'input',
-    label: 'Full Name',
+    label: 'Primary Contact (Full Name)',
     span: 6,
     rules: {
       required: true,
@@ -22,7 +22,7 @@ const personalInformationSchema: FormSchema = {
   },
   birthdate: {
     type: 'date',
-    label: 'Birthdate',
+    label: 'Date of Birth',
     span: 6,
     rules: {
       required: true,
@@ -32,11 +32,13 @@ const personalInformationSchema: FormSchema = {
     type: 'input',
     label: 'Company Name',
     span: 6,
+    placeholder: 'Leave blank if not applicable',
   },
   trading_name: {
     type: 'input',
     label: 'Trading Name',
     span: 6,
+    placeholder: 'Leave blank if not applicable',
   },
   industry: {
     type: 'input',
@@ -48,7 +50,7 @@ const personalInformationSchema: FormSchema = {
   },
   telephone_number: {
     type: 'input',
-    label: 'Telephone Number',
+    label: 'Telephone Number (Daytime)',
     span: 6,
     rules: {
       required: true,
@@ -65,33 +67,49 @@ const personalInformationSchema: FormSchema = {
 }
 
 const billingAddressSchema = {
-  billing_street_address: {
+  primary_street_address: {
     type: 'input',
-    label: 'Primary Street Address',
+    label: 'Street Address',
     span: 6,
     rules: {
       required: true,
     },
   },
-  billing_city: {
+  primary_city: {
     type: 'input',
-    label: 'Primary City',
-    span: 6,
+    label: 'City',
+    span: 3,
     rules: {
       required: true,
     },
   },
-  billing_zip_code: {
+  primary_state: {
     type: 'input',
-    label: 'Primary Zip Code',
-    span: 6,
+    label: 'State',
+    span: 3,
     rules: {
       required: true,
     },
   },
-  billing_email: {
+  primary_zip_code: {
     type: 'input',
-    label: 'Primary Email',
+    label: 'ZIP Code',
+    span: 3,
+    rules: {
+      required: true,
+    },
+  },
+  primary_country: {
+    type: 'input',
+    label: 'Country',
+    span: 3,
+    rules: {
+      required: true,
+    },
+  },
+  primary_email: {
+    type: 'input',
+    label: 'Email Address (Primary Contact)',
     span: 6,
     rules: {
       required: true,
@@ -100,7 +118,7 @@ const billingAddressSchema = {
 }
 
 const shippingAddressSchema = computed(() => {
-  const same_as_billing = {
+  const shipping_same_as_primary = {
     same_as_billing: {
       type: 'checkbox',
       label: 'Same as Primary Address',
@@ -108,13 +126,13 @@ const shippingAddressSchema = computed(() => {
     },
   }
   if (formValue.value.same_as_billing)
-    return same_as_billing
+    return shipping_same_as_primary
 
   return {
-    ...same_as_billing,
+    ...shipping_same_as_primary,
     shipping_street_address: {
       type: 'input',
-      label: 'Billing Street Address',
+      label: 'Street Address',
       span: 6,
       rules: {
         required: true,
@@ -122,23 +140,39 @@ const shippingAddressSchema = computed(() => {
     },
     shipping_city: {
       type: 'input',
-      label: 'Billing City',
-      span: 6,
+      label: 'City',
+      span: 3,
+      rules: {
+        required: true,
+      },
+    },
+    shipping_state: {
+      type: 'input',
+      label: 'State',
+      span: 3,
       rules: {
         required: true,
       },
     },
     shipping_zip_code: {
       type: 'input',
-      label: 'Billing Zip Code',
-      span: 6,
+      label: 'ZIP Code',
+      span: 3,
+      rules: {
+        required: true,
+      },
+    },
+    shipping_country: {
+      type: 'input',
+      label: 'Country',
+      span: 3,
       rules: {
         required: true,
       },
     },
     shipping_email: {
       type: 'input',
-      label: 'Billing Email',
+      label: 'Email Address (Billing/Accounts)',
       span: 6,
       rules: {
         required: true,
@@ -150,7 +184,7 @@ const shippingAddressSchema = computed(() => {
 const emergencySchema = {
   emergency_contact: {
     type: 'input',
-    label: 'Emergency Contact',
+    label: 'Emergency Contact (Full Name)',
     span: 6,
     rules: {
       required: true,
@@ -159,7 +193,7 @@ const emergencySchema = {
   emergency_telephone: {
     type: 'input',
     label: 'Emergency Telephone',
-    span: 6,
+    span: 3,
     rules: {
       required: true,
     },
@@ -167,22 +201,14 @@ const emergencySchema = {
   emergency_mobile: {
     type: 'input',
     label: 'Emergency Mobile',
-    span: 6,
+    span: 3,
     rules: {
       required: true,
     },
   },
   emergency_email: {
     type: 'input',
-    label: 'Emergency Email',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  emergency_address: {
-    type: 'input',
-    label: 'Emergency Address',
+    label: 'Email Address (Emergency Contact)',
     span: 6,
     rules: {
       required: true,
@@ -190,7 +216,7 @@ const emergencySchema = {
   },
   emergency_relationship: {
     type: 'input',
-    label: 'Emergency Relationship',
+    label: 'Relationship',
     span: 6,
     rules: {
       required: true,
@@ -213,7 +239,7 @@ const idSchema = {
   },
   id_expiry: {
     type: 'date',
-    label: 'ID Expiry',
+    label: 'Expiry Date',
     span: 6,
     rules: {
       required: true,
@@ -221,7 +247,7 @@ const idSchema = {
   },
   social_security_no: {
     type: 'input',
-    label: 'Social Security No.',
+    label: 'Social Security Number',
     span: 6,
     rules: {
       required: true,
@@ -364,18 +390,6 @@ const serviceSchema = {
       required: true,
     },
   },
-  plan_term: {
-    type: 'select',
-    label: 'Plan Term',
-    span: 6,
-    options: [
-      { label: 'Month to Month', value: 'Month to Month' },
-      { label: '12 Months', value: '12 Months' },
-    ],
-    rules: {
-      required: true,
-    },
-  },
   sim_number: {
     type: 'input',
     label: 'SIM Number',
@@ -412,6 +426,34 @@ const serviceSchema = {
       required: true,
     },
   },
+  vessel_narrative: {
+    type: 'input',
+    label: 'Vessel/Narrative',
+    span: 6,
+    rules: {
+      required: true,
+    },
+  },
+  requested_activation_date: {
+    type: 'date',
+    label: 'Requested Activation Date',
+    span: 6,
+    rules: {
+      required: true,
+    },
+  },
+  cost_center: {
+    type: 'input',
+    label: 'Cost Center',
+    span: 6,
+    placeholder: 'Leave blank if not applicable',
+  },
+}
+
+const form = ref()
+const router = useRouter()
+function handleNext() {
+  form.value.submit(router.push('/terms'))
 }
 </script>
 
@@ -420,38 +462,52 @@ const serviceSchema = {
     <n-h1 class="text-center">
       Application Form
     </n-h1>
-    <n-h2>Your Information</n-h2>
     <app-form ref="form" :model="formValue">
+      <app-form-h2>
+        Your Information
+        <template #helper>
+          If you’re an individual or sole trader you can skip the fields that are not applicable.
+        </template>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="personalInformationSchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Billing Address
-      </n-h2>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="billingAddressSchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Shipping Address
-      </n-h2>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="shippingAddressSchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Emergency Contact
-      </n-h2>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="emergencySchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Your Identification
-      </n-h2>
+        <template #helper>
+          At least one form of ID is required. Don’t forget to choose an enquiry password so we can identify you when you make account enquiries.
+        </template>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="idSchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Credit Card
-      </n-h2>
+        <template #helper>
+          Your credit card will be charged on the due date shown on your invoice for monthly services, or at the time of voucher recharge.
+        </template>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="ccSchema" />
 
-      <n-h2 class="col-span-12">
+      <app-form-h2>
         Satellite Service & Equipment
-      </n-h2>
+        <template #helper>
+          Information about the service and equipment you’re applying for.
+        </template>
+      </app-form-h2>
       <app-form-items v-model="formValue" :schema="serviceSchema" />
     </app-form>
   </div>
@@ -462,10 +518,8 @@ const serviceSchema = {
         Back
       </n-button>
     </router-link>
-    <router-link v-slot="{ navigate }" custom to="/information">
-      <n-button size="large" type="primary" @click="navigate">
-        Next
-      </n-button>
-    </router-link>
+    <n-button size="large" type="primary" @click="handleNext">
+      Next
+    </n-button>
   </div>
 </template>

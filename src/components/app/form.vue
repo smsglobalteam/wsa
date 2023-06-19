@@ -17,13 +17,13 @@ const validateMessages: FormValidateMessages = {
 
 const form = ref<FormInst>()
 function submit(cb: Function) {
-  form.value?.validate().then(() => cb())
+  form.value?.validate()
 }
 defineExpose({ submit })
 </script>
 
 <template>
-  <n-form ref="form" class="grid grid-cols-12 gap-x-3 gap-y-2" v-bind="{ model, validateMessages }">
+  <n-form ref="form" class="grid shrink-0 grid-cols-6 gap-x-3 gap-y-2 md:grid-cols-12" v-bind="{ model, validateMessages }">
     <slot />
   </n-form>
 </template>
