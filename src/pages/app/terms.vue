@@ -4,6 +4,13 @@ interface Content {
   text: string
 }
 
+const formValue = reactive({
+  termsAgree: false,
+  rateAgree: false,
+})
+
+const message = useMessage()
+
 const content: Content = [
   {
     title: 'Payment Methods',
@@ -109,6 +116,9 @@ const content: Content = [
       <n-p>{{ part.text }}</n-p>
     </template>
     <n-divider />
+    <n-checkbox v-model:checked="formValue.termsAgree" label="I agree to the Pivotel Terms and Conditions" size="large" />
+    <n-checkbox v-model:checked="formValue.rateAgree" class="mt-4" label="I have been provided a Rate Sheet which includes a schedule of the main rates for my selected Pivotel Service Plan. I have been provided with the Pivotel Fair Use Policy that applies to my Pivotel Service Plan, I understand the policy and agree to comply with the terms of the policy. I understand that my application for service is subject to the Terms of Application and the Pivotel General Terms and Conditions shown on this Service Application. I understand there is a minimum cost associated with my application for service which includes any activation fee and the monthly charges for the minimum term of my contract." size="large" />
+    <n-divider />
   </div>
   <div class="flex justify-between">
     <router-link v-slot="{ navigate }" custom to="/information">
@@ -116,5 +126,8 @@ const content: Content = [
         Back
       </n-button>
     </router-link>
+    <n-button :disabled="!(formValue.termsAgree && formValue.rateAgree)" size="large" type="primary" @click="message.info('Other pages are in development')">
+      Next
+    </n-button>
   </div>
 </template>
