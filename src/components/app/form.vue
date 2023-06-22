@@ -16,10 +16,11 @@ const validateMessages: FormValidateMessages = {
 }
 
 const form = ref<FormInst>()
-function submit(cb: Function) {
-  form.value?.validate()
+const errors = ref()
+function submit(callback: (errors: Array<Record<string, any>> | undefined) => void) {
+  return form.value?.validate(e => callback(e))
 }
-defineExpose({ submit })
+defineExpose({ submit, errors })
 </script>
 
 <template>

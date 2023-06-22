@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSchema } from '@/components/app/form-items.vue'
 
-const formValue = ref({})
+const formValue = useLocalStorage('form', {})
 
 const personalInformationSchema: FormSchema = {
   tax_id: {
@@ -307,38 +307,41 @@ const ccSchema = {
             return false
         }
       },
+      message: 'Please enter a valid card number',
     },
   },
   card_expiry_date: {
     type: 'date',
     label: 'Card Expiry Date',
     span: 3,
-    rules: {
-      required: true,
-      validator: (_, value) => {
-        const today = new Date()
-        const expiry = new Date(value)
-        return expiry > today
-      },
-    },
+    rules: [
+      { required: true },
+      {
+        validator: (_, value) => {
+          const today = new Date()
+          const expiry = new Date(value)
+          return expiry > today
+        },
+        message: 'Your card is expired',
+      }],
   },
   card_ccv: {
-    type: 'input',
+    type: 'number',
     label: 'Card CVV',
     span: 3,
     rules: {
       required: true,
-      validator: (_, value) => {
+      type: 'number',
+      message: 'Invalid CVV',
+      validator: (_, value: number) => {
         const card = formValue.value.card_type
         switch (card) {
           case 'Mastercard':
-            return value.length === 3
-          case 'Visa':
-            return value.length === 3
-          case 'American Express':
-            return value.length === 4
           case 'Discover':
-            return value.length === 3
+          case 'Visa':
+            return value.toString().length === 3
+          case 'American Express':
+            return value.toString().length === 4
           default:
             return false
         }
@@ -452,74 +455,82 @@ const serviceSchema = {
 
 const form = ref()
 const router = useRouter()
+const message = useMessage()
 function handleNext() {
-  form.value.submit(router.push('/terms'))
+  form.value.submit((errors) => {
+    if (errors)
+      return message.error('Please fill in all required fields.')
+
+    return router.push('/terms')
+  })
 }
 </script>
 
 <template>
-  <div>
-    <n-h1 class="text-center">
-      Application Form
-    </n-h1>
-    <app-form ref="form" :model="formValue">
-      <app-form-h2>
-        Your Information
-        <template #helper>
-          If you’re an individual or sole trader you can skip the fields that are not applicable.
-        </template>
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="personalInformationSchema" />
+  <main>
+    <div>
+      <n-h1 class="text-center">
+        Application Form
+      </n-h1>
+      <app-form ref="form" :model="formValue">
+        <app-form-h2>
+          Your Information
+          <template #helper>
+            If you’re an individual or sole trader you can skip the fields that are not applicable.
+          </template>
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="personalInformationSchema" />
 
-      <app-form-h2>
-        Billing Address
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="billingAddressSchema" />
+        <app-form-h2>
+          Billing Address
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="billingAddressSchema" />
 
-      <app-form-h2>
-        Shipping Address
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="shippingAddressSchema" />
+        <app-form-h2>
+          Shipping Address
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="shippingAddressSchema" />
 
-      <app-form-h2>
-        Emergency Contact
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="emergencySchema" />
+        <app-form-h2>
+          Emergency Contact
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="emergencySchema" />
 
-      <app-form-h2>
-        Your Identification
-        <template #helper>
-          At least one form of ID is required. Don’t forget to choose an enquiry password so we can identify you when you make account enquiries.
-        </template>
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="idSchema" />
+        <app-form-h2>
+          Your Identification
+          <template #helper>
+            At least one form of ID is required. Don’t forget to choose an enquiry password so we can identify you when you make account enquiries.
+          </template>
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="idSchema" />
 
-      <app-form-h2>
-        Credit Card
-        <template #helper>
-          Your credit card will be charged on the due date shown on your invoice for monthly services, or at the time of voucher recharge.
-        </template>
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="ccSchema" />
+        <app-form-h2>
+          Credit Card
+          <template #helper>
+            Your credit card will be charged on the due date shown on your invoice for monthly services, or at the time of voucher recharge.
+          </template>
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="ccSchema" />
 
-      <app-form-h2>
-        Satellite Service & Equipment
-        <template #helper>
-          Information about the service and equipment you’re applying for.
-        </template>
-      </app-form-h2>
-      <app-form-items v-model="formValue" :schema="serviceSchema" />
-    </app-form>
-  </div>
-  <n-divider />
-  <div class="flex justify-between">
-    <router-link v-slot="{ navigate }" custom to="/plan">
-      <n-button size="large" @click="navigate">
-        Back
+        <app-form-h2>
+          Satellite Service & Equipment
+          <template #helper>
+            Information about the service and equipment you’re applying for.
+          </template>
+        </app-form-h2>
+        <app-form-items v-model="formValue" :schema="serviceSchema" />
+      </app-form>
+    </div>
+    <n-divider />
+    <div class="flex justify-between">
+      <router-link v-slot="{ navigate }" custom to="/plan">
+        <n-button size="large" @click="navigate">
+          Back
+        </n-button>
+      </router-link>
+      <n-button size="large" type="primary" @click="handleNext">
+        Next
       </n-button>
-    </router-link>
-    <n-button size="large" type="primary" @click="handleNext">
-      Next
-    </n-button>
-  </div>
+    </div>
+  </main>
 </template>

@@ -5,7 +5,7 @@ definePage({
 </script>
 
 <template>
-  <div class="text-center">
+  <main class="text-center">
     <h1>Welcome!</h1>
-  </div>
+  </main>
 </template>

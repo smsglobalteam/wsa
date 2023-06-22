@@ -8,7 +8,7 @@ interface FormItem {
   label: string
   placeholder?: string
   span?: number | 'full'
-  rules?: FormItemRule
+  rules?: FormItemRule | FormItemRule[]
 }
 
 // TODO: Add checked value
@@ -24,6 +24,10 @@ interface FormItemDate extends FormItem {
 
 interface FormItemInput extends FormItem {
   type: 'input'
+}
+
+interface FormItemNumber extends FormItem {
+  type: 'number'
 }
 
 interface FormItemRadio extends FormItem {
@@ -49,7 +53,7 @@ interface FormSpacer {
   span: number
 }
 
-type FormItems = FormItemCheckbox | FormItemDate | FormItemInput | FormItemRadio | FormItemSelect | FormSpacer | FormItemTextarea
+type FormItems = FormItemCheckbox | FormItemDate | FormItemInput | FormItemNumber | FormItemRadio | FormItemSelect | FormSpacer | FormItemTextarea
 
 export interface FormSchema {
   [path: string]: FormItems
@@ -78,6 +82,8 @@ function gridColumns(span?: number | 'full') {
       <n-date-picker v-if="item.type === 'date'" v-model:formatted-value="modelValue[path]" :placeholder="item.placeholder || 'YYYY-MM-DD'" type="date" value-format="yyyy-MM-dd" />
 
       <n-input v-if="item.type === 'input'" v-model:value="modelValue[path]" clearable :placeholder="item.placeholder || ''" />
+
+      <n-input-number v-if="item.type === 'number'" v-model:value="modelValue[path]" clearable :placeholder="item.placeholder || ''" :show-button="false" />
 
       <n-radio-group v-if="item.type === 'radio'" v-model:value="modelValue[path]">
         <n-space>
