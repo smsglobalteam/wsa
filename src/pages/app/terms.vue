@@ -121,7 +121,7 @@ const content: Content = [
     <n-divider />
   </main>
   <div class="flex justify-between">
-    <router-link v-slot="{ navigate }" custom to="/information">
+    <router-link v-slot="{ navigate }" custom to="/payment">
       <n-button size="large" @click="navigate">
         Back
       </n-button>
