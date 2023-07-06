@@ -79,7 +79,7 @@ function gridColumns(span?: number | 'full') {
     <n-form-item v-if="item.type !== 'space'" class="shrink-0" :label="item.label" :path="path" :rule="item.rules" :show-label="item.type !== 'checkbox'" :style="gridColumns(item.span)">
       <n-checkbox v-if="item.type === 'checkbox'" v-model:checked="modelValue[path]" :label="item.label" />
 
-      <n-date-picker v-if="item.type === 'date'" v-model:formatted-value="modelValue[path]" :placeholder="item.placeholder || 'YYYY-MM-DD'" type="date" value-format="yyyy-MM-dd" />
+      <n-date-picker v-if="item.type === 'date'" v-model:formatted-value="modelValue[path]" class="w-full" :placeholder="item.placeholder || 'YYYY-MM-DD'" type="date" value-format="yyyy-MM-dd" />
 
       <n-input v-if="item.type === 'input'" v-model:value="modelValue[path]" clearable :placeholder="item.placeholder || ''" />
 

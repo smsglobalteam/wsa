@@ -34,21 +34,27 @@ const ccSchema: FormSchema = {
     rules: {
       required: true,
       validator: (_, value) => {
-        const card = state.card_type
-        switch (card) {
-          case 'Mastercard':
-            return value.length === 16
-          case 'Visa':
-            return value.length === 16
-          case 'American Express':
-            return value.length === 15
-          case 'Discover':
-            return value.length === 16
-          default:
-            return false
+        if (/[^0-9-\s]+/.test(value))
+          return false
+
+        let nCheck = 0
+        let bEven = false
+        value = value.replace(/\D/g, '')
+
+        for (let n = value.length - 1; n >= 0; n--) {
+          const cDigit = value.charAt(n)
+          let nDigit = Number.parseInt(cDigit, 10)
+
+          if (bEven && (nDigit *= 2) > 9)
+            nDigit -= 9
+
+          nCheck += nDigit
+          bEven = !bEven
         }
+
+        return (nCheck % 10) === 0
       },
-      message: 'Please enter a valid card number',
+      message: 'Invalid credit card number',
     },
   },
   card_expiry_date: {
