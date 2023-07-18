@@ -7,14 +7,55 @@ const formValue = useLocalStorage('wsa-', {})
     <div class="flex flex-col items-center text-center">
       <n-h1>Welcome!</n-h1>
       <n-p>
-        We are delighted to offer you a seamless and convenient platform to commence your journey with our esteemed organization. Upon completing this form, you will gain access to our comprehensive suite of communication services, specifically tailored to meet your individual needs. Our commitment to providing unparalleled customer support ensures that you will receive world-class connectivity solutions, streamlined for a truly exceptional experience. Thank you for choosing Pivotel, and we look forward to fostering a long-lasting partnership with you.
+        Welcome to the Pivotel Satellite Service Application.
       </n-p>
-      <app-form-h2 class="mt-4">
+      <n-p>
+        Activate your satellite devices with Pivotel service. Need a satellite phone or terminal? Visit
+        <!-- eslint-disable-next-line -->
+        <n-text underline><n-a href="https://www.pivotel.com">pivotel.com</n-a></n-text>.
+        Satellite devices are typically activated within 24 hours, upon activation, you will receive an email from a pivotel.com address with confirmation. Thank you for choosing Pivotel.
+      </n-p>
+      <n-p>
+        If we can be of further help, Contact Us <n-text underline>
+          <n-a href="https://www.pivotel.com/contact-us">
+            pivotel.com/contact-us
+          </n-a>
+        </n-text>
+      </n-p>
+      <n-ul>
+        <n-li>
+          Email:
+          <n-text underline>
+            <n-a href="mailto:activations@pivotel.com">
+              activations@pivotel.com
+            </n-a>
+          </n-text>
+        </n-li>
+        <n-li>
+          US:
+          <n-text underline>
+            <n-a href="tel:+1 (954) 763-8650">
+              +1 (954) 763-8650
+            </n-a>
+          </n-text>
+          - Option 1
+        </n-li>
+        <n-li>
+          US:
+          <n-text underline>
+            <n-a href="tel:+1 (865) 379-8723">
+              +1 (865) 379-8723
+            </n-a>
+          </n-text>
+          - Option 1
+        </n-li>
+      </n-ul>
+      <app-form-h2 class="mt-6">
         What You Need to Activate Your Service
       </app-form-h2>
-      <n-ul align-text class="mb-4">
-        <n-li>• Billing and contact information for you or your company</n-li>
-        <n-li>• The SIM card numbers for devices you want to activate</n-li>
+      <n-ul class="mb-4">
+        <n-li>• Your Information: Billing and contact information for you or your company</n-li>
+        <n-li>•	Satellite Information: SIM card numbers for the phones or terminals you want to activate </n-li>
         <n-li>• A valid credit card</n-li>
       </n-ul>
       <n-p>If you have a dealer code, please enter it below:</n-p>

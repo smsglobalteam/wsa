@@ -1,21 +1,57 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import type { FormSchema } from '@/components/app/form-items.vue'
 import { useFormStore } from '@/utils/store'
+import { countries, usStates } from '@/utils/places'
 
 const { state } = useFormStore()
 
+const accountSchema: ComputedRef<FormSchema> = computed(() => {
+  const is_for_existing_account: FormSchema = {
+    is_for_existing_account: {
+      type: 'checkbox',
+      label: 'Is this for an existing account?',
+      span: 12,
+      showFeedback: false,
+    },
+  }
+  if (!state.is_for_existing_account)
+    return is_for_existing_account
+
+  return {
+    ...is_for_existing_account,
+    account_number: {
+      type: 'input',
+      label: 'Account Number',
+      span: 6,
+      rules: {
+        required: true,
+      },
+    },
+  }
+})
+
 const personalInformationSchema: FormSchema = {
-  tax_id: {
-    type: 'input',
-    label: 'Tax ID',
-    span: 6,
+  title: {
+    type: 'select',
+    label: 'Title',
+    span: 2,
+    options: ['Mr.', 'Mrs.', 'Ms.'].map(title => ({ label: title, value: title })),
     rules: {
       required: true,
     },
   },
-  full_name: {
+  first_name: {
     type: 'input',
-    label: 'Primary Contact (Full Name)',
+    label: 'First Name',
+    span: 4,
+    rules: {
+      required: true,
+    },
+  },
+  last_name: {
+    type: 'input',
+    label: 'Last Name',
     span: 6,
     rules: {
       required: true,
@@ -41,34 +77,66 @@ const personalInformationSchema: FormSchema = {
     span: 6,
     placeholder: 'Leave blank if not applicable',
   },
-  industry: {
+  email: {
     type: 'input',
-    label: 'Industry',
+    label: 'Email Address',
     span: 6,
-    rules: {
-      required: true,
-    },
+    rules: [
+      {
+        required: true,
+      },
+      {
+        type: 'email',
+      },
+    ],
   },
   telephone_number: {
     type: 'input',
     label: 'Telephone Number (Daytime)',
     span: 6,
-    rules: {
-      required: true,
-    },
+    rules: [
+      { required: true },
+      {
+        validator: (_, value) => {
+          // Validate E.164 format
+          return /^\+?[1-9]\d{1,14}$/.test(value)
+        },
+        message: 'Invalid telephone number',
+      },
+    ],
   },
   mobile: {
     type: 'input',
     label: 'Mobile',
     span: 6,
+    rules: [
+      { required: true },
+      {
+        validator: (_, value) => {
+          // Validate E.164 format
+          return /^\+?[1-9]\d{1,14}$/.test(value)
+        },
+        message: 'Invalid mobile number',
+      },
+    ],
+  },
+  sign_up_marketing: {
+    type: 'checkbox',
+    label: 'Opt in to receive news and product information from Pivotel',
+    span: 6,
+  },
+}
+
+const billingAddressSchema = computed<FormSchema>(() => ({
+  billing_email: {
+    type: 'input',
+    label: 'Email Address (Billing/Accounts)',
+    span: 6,
     rules: {
       required: true,
     },
   },
-}
-
-const billingAddressSchema: FormSchema = {
-  primary_street_address: {
+  billing_street_address: {
     type: 'input',
     label: 'Street Address',
     span: 6,
@@ -76,7 +144,7 @@ const billingAddressSchema: FormSchema = {
       required: true,
     },
   },
-  primary_city: {
+  billing_city: {
     type: 'input',
     label: 'City',
     span: 3,
@@ -84,15 +152,7 @@ const billingAddressSchema: FormSchema = {
       required: true,
     },
   },
-  primary_state: {
-    type: 'input',
-    label: 'State',
-    span: 3,
-    rules: {
-      required: true,
-    },
-  },
-  primary_zip_code: {
+  billing_zip_code: {
     type: 'input',
     label: 'ZIP Code',
     span: 3,
@@ -100,37 +160,55 @@ const billingAddressSchema: FormSchema = {
       required: true,
     },
   },
-  primary_country: {
-    type: 'input',
+  billing_country: {
+    type: 'select',
     label: 'Country',
     span: 3,
+    options: Object.entries(countries).map(([value, label]) => ({ value, label })),
     rules: {
       required: true,
     },
   },
-  primary_email: {
-    type: 'input',
-    label: 'Email Address (Primary Contact)',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-}
+  ...state.billing_country === 'US'
+    ? {
+        billing_state: {
+          type: 'select',
+          label: 'State',
+          span: 3,
+          options: usStates.map(state => ({
+            label: state,
+            value: state,
+          })),
+          rules: {
+            required: true,
+          },
+        },
+      }
+    : {
+        billing_state: {
+          type: 'input',
+          label: 'State',
+          span: 3,
+          rules: {
+            required: true,
+          },
+        },
+      },
+}))
 
-const shippingAddressSchema = computed(() => {
-  const shipping_same_as_primary = {
-    same_as_billing: {
+const shippingAddressSchema: ComputedRef<FormSchema> = computed(() => {
+  const is_shipping_same_as_primary: FormSchema = {
+    is_same_as_billing: {
       type: 'checkbox',
       label: 'Same as Primary Address',
       span: 12,
     },
   }
-  if (state.same_as_billing)
-    return shipping_same_as_primary
+  if (state.is_same_as_billing)
+    return is_shipping_same_as_primary
 
   return {
-    ...shipping_same_as_primary,
+    ...is_shipping_same_as_primary,
     shipping_street_address: {
       type: 'input',
       label: 'Street Address',
@@ -147,14 +225,6 @@ const shippingAddressSchema = computed(() => {
         required: true,
       },
     },
-    shipping_state: {
-      type: 'input',
-      label: 'State',
-      span: 3,
-      rules: {
-        required: true,
-      },
-    },
     shipping_zip_code: {
       type: 'input',
       label: 'ZIP Code',
@@ -164,105 +234,84 @@ const shippingAddressSchema = computed(() => {
       },
     },
     shipping_country: {
-      type: 'input',
+      type: 'select',
       label: 'Country',
       span: 3,
+      options: Object.entries(countries).map(([value, label]) => ({ value, label })),
       rules: {
         required: true,
       },
     },
-    shipping_email: {
-      type: 'input',
-      label: 'Email Address (Billing/Accounts)',
-      span: 6,
-      rules: {
-        required: true,
-      },
-    },
+    ...state.shipping_country === 'US'
+      ? {
+          shipping_state: {
+            type: 'select',
+            label: 'State',
+            span: 3,
+            options: usStates.map(state => ({
+              label: state,
+              value: state,
+            })),
+            rules: {
+              required: true,
+            },
+          },
+        }
+      : {
+          shipping_state: {
+            type: 'input',
+            label: 'State',
+            span: 3,
+            rules: {
+              required: true,
+            },
+          },
+        },
   }
 })
 
-const emergencySchema: FormSchema = {
-  emergency_contact: {
-    type: 'input',
-    label: 'Emergency Contact (Full Name)',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  emergency_telephone: {
-    type: 'input',
-    label: 'Emergency Telephone',
-    span: 3,
-    rules: {
-      required: true,
-    },
-  },
-  emergency_mobile: {
-    type: 'input',
-    label: 'Emergency Mobile',
-    span: 3,
-    rules: {
-      required: true,
-    },
-  },
-  emergency_email: {
-    type: 'input',
-    label: 'Email Address (Emergency Contact)',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  emergency_relationship: {
-    type: 'input',
-    label: 'Relationship',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-}
-
-const idSchema: FormSchema = {
-  id_type: {
-    type: 'select',
-    label: 'ID Type',
-    span: 6,
-    options: [
-      { label: 'Driver\'s License', value: 'Driver\'s License' },
-      { label: 'Passport', value: 'Passport' },
-    ],
-    rules: {
-      required: true,
-    },
-  },
-  id_expiry: {
-    type: 'date',
-    label: 'Expiry Date',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  social_security_no: {
-    type: 'input',
-    label: 'Social Security Number',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  inquiry_password: {
-    type: 'input',
-    label: 'Inquiry Password',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-}
+// const emergencySchema: FormSchema = {
+//   emergency_contact: {
+//     type: 'input',
+//     label: 'Emergency Contact (Full Name)',
+//     span: 6,
+//     rules: {
+//       required: true,
+//     },
+//   },
+//   emergency_telephone: {
+//     type: 'input',
+//     label: 'Emergency Telephone',
+//     span: 3,
+//     rules: {
+//       required: true,
+//     },
+//   },
+//   emergency_mobile: {
+//     type: 'input',
+//     label: 'Emergency Mobile',
+//     span: 3,
+//     rules: {
+//       required: true,
+//     },
+//   },
+//   emergency_email: {
+//     type: 'input',
+//     label: 'Email Address (Emergency Contact)',
+//     span: 6,
+//     rules: {
+//       required: true,
+//     },
+//   },
+//   emergency_relationship: {
+//     type: 'input',
+//     label: 'Relationship',
+//     span: 6,
+//     rules: {
+//       required: true,
+//     },
+//   },
+// }
 
 // const serviceSchema: FormSchema = {
 //   satellite_network: {
@@ -371,7 +420,7 @@ const form = ref()
 const router = useRouter()
 const message = useMessage()
 function handleNext() {
-  form.value.submit((errors) => {
+  form.value.submit((errors: any) => {
     if (errors)
       return message.error('Please fill in all required fields.')
 
@@ -386,7 +435,10 @@ function handleNext() {
       <n-h1 class="text-center">
         Application Form
       </n-h1>
+
       <app-form ref="form" :model="state">
+        <app-form-items v-model="state" :schema="accountSchema" />
+
         <app-form-h2>
           Your Information
           <template #helper>
@@ -405,26 +457,10 @@ function handleNext() {
         </app-form-h2>
         <app-form-items v-model="state" :schema="shippingAddressSchema" />
 
-        <app-form-h2>
-          Emergency Contact
-        </app-form-h2>
-        <app-form-items v-model="state" :schema="emergencySchema" />
-
-        <app-form-h2>
-          Your Identification
-          <template #helper>
-            At least one form of ID is required. Don’t forget to choose an enquiry password so we can identify you when you make account enquiries.
-          </template>
-        </app-form-h2>
-        <app-form-items v-model="state" :schema="idSchema" />
-
         <!--        <app-form-h2> -->
-        <!--          Satellite Service & Equipment -->
-        <!--          <template #helper> -->
-        <!--            Information about the service and equipment you’re applying for. -->
-        <!--          </template> -->
+        <!--          Emergency Contact -->
         <!--        </app-form-h2> -->
-        <!--        <app-form-items v-model="state" :schema="serviceSchema" /> -->
+        <!--        <app-form-items v-model="state" :schema="emergencySchema" /> -->
       </app-form>
     </div>
     <n-divider />

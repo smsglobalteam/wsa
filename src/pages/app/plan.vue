@@ -114,7 +114,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
   satellite_network: {
     type: 'select',
     label: 'Satellite Network',
-    span: 6,
+    span: 12,
     options: [
       { label: 'Bivy', value: 'Bivy' },
       { label: 'Garmin', value: 'Garmin' },
@@ -134,7 +134,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
     hardware_type: {
       type: 'select',
       label: 'Hardware Type',
-      span: 6,
+      span: 12,
       options: ['HW Placeholder 1', 'HW Placeholder 2', 'HW Placeholder 3'].map((option) => {
         return {
           label: `${state.satellite_network} ${option}`,
@@ -150,7 +150,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
     plan_family: {
       type: 'select',
       label: 'Plan Family',
-      span: 6,
+      span: 12,
       options: ['PF Placeholder 1', 'PF Placeholder 2', 'PF Placeholder 3'].map((option) => {
         return {
           label: `${state.hardware_type} ${option}`,
@@ -165,27 +165,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
   sim_number: {
     type: 'input',
     label: 'SIM Number',
-    span: 6,
-    rules: {
-      required: true,
-    },
-  },
-  equipment_provider: {
-    type: 'select',
-    label: 'Equipment Provider',
-    span: 6,
-    options: [
-      { label: 'Pivotel', value: 'Pivotel' },
-      { label: 'Other', value: 'Other' },
-    ],
-    rules: {
-      required: true,
-    },
-  },
-  hardware_model: {
-    type: 'input',
-    label: 'Hardware Model',
-    span: 6,
+    span: 12,
     rules: {
       required: true,
     },
@@ -193,7 +173,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
   imei_esn: {
     type: 'input',
     label: 'IMEI/ESN',
-    span: 6,
+    span: 12,
     rules: {
       required: true,
     },
@@ -201,7 +181,7 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
   vessel_narrative: {
     type: 'input',
     label: 'Vessel/Narrative',
-    span: 6,
+    span: 12,
     rules: {
       required: true,
     },
@@ -209,18 +189,24 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
   requested_activation_date: {
     type: 'date',
     label: 'Requested Activation Date',
-    span: 6,
+    span: 12,
     rules: {
       required: true,
     },
   },
-  cost_center: {
-    type: 'input',
-    label: 'Cost Center',
-    span: 6,
-    placeholder: 'Leave blank if not applicable',
-  },
 }))
+
+const form = ref()
+const router = useRouter()
+const message = useMessage()
+function handleNext() {
+  form.value.submit((errors) => {
+    if (errors)
+      return message.error('Please fill in all required fields.')
+
+    return router.push('/terms')
+  })
+}
 </script>
 
 <template>
@@ -238,9 +224,9 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
         <!--            Information about the service and equipment you’re applying for. -->
         <!--          </template> -->
         <!--        </app-form-h2> -->
-        <n-form size="large">
+        <app-form ref="form" :model="state" size="large">
           <app-form-items v-model="state" :schema="serviceSchema" />
-        </n-form>
+        </app-form>
 
         <!--        <n-form :model="state" :rules="rules" :show-feedback="false" :show-label="false"> -->
         <!--          <n-h3> -->
@@ -313,11 +299,9 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
           Back
         </n-button>
       </router-link>
-      <router-link v-slot="{ navigate }" custom to="/payment">
-        <n-button :disabled="!state.plan" size="large" type="primary" @click="navigate">
-          Next
-        </n-button>
-      </router-link>
+      <n-button size="large" type="primary" @click="handleNext">
+        Next
+      </n-button>
     </div>
   </main>
 </template>
