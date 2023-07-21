@@ -194,6 +194,11 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
       required: true,
     },
   },
+  is_for_maritime: {
+    type: 'checkbox',
+    label: 'This device will be used primarily on a commercial maritime vessel',
+    span: 12,
+  },
 }))
 
 const form = ref()
@@ -204,6 +209,9 @@ function handleNext() {
     if (errors)
       return message.error('Please fill in all required fields.')
 
+    if (state.is_for_maritime)
+      return router.push('/maritime')
+
     return router.push('/terms')
   })
 }
@@ -211,10 +219,10 @@ function handleNext() {
 
 <template>
   <main>
-    <div class="mx-auto max-w-sm">
+    <div class="mx-auto">
       <div class="text-center">
         <n-h1>Select Plan</n-h1>
-        <n-p>
+        <n-p class="!mb-6">
           Information about the service and equipment you’re applying for. You can find out more about plans at <n-a>pivotel.com</n-a>
         </n-p>
 
@@ -224,7 +232,7 @@ function handleNext() {
         <!--            Information about the service and equipment you’re applying for. -->
         <!--          </template> -->
         <!--        </app-form-h2> -->
-        <app-form ref="form" :model="state" size="large">
+        <app-form ref="form" class="mx-auto max-w-sm" :model="state" size="large">
           <app-form-items v-model="state" :schema="serviceSchema" />
         </app-form>
 

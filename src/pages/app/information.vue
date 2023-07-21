@@ -12,7 +12,7 @@ const accountSchema: ComputedRef<FormSchema> = computed(() => {
       type: 'checkbox',
       label: 'Is this for an existing account?',
       span: 12,
-      showFeedback: false,
+      showFeedback: !state.is_for_existing_account,
     },
   }
   if (!state.is_for_existing_account)
@@ -107,7 +107,7 @@ const personalInformationSchema: FormSchema = {
   },
   mobile: {
     type: 'input',
-    label: 'Mobile',
+    label: 'Mobile Number',
     span: 6,
     rules: [
       { required: true },
@@ -200,7 +200,7 @@ const shippingAddressSchema: ComputedRef<FormSchema> = computed(() => {
   const is_shipping_same_as_primary: FormSchema = {
     is_same_as_billing: {
       type: 'checkbox',
-      label: 'Same as Primary Address',
+      label: 'Same as primary address',
       span: 12,
     },
   }
