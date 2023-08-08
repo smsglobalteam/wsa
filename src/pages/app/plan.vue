@@ -212,7 +212,7 @@ function handleNext() {
     if (state.is_for_maritime)
       return router.push('/maritime')
 
-    return router.push('/terms')
+    return router.push('/payment')
   })
 }
 </script>

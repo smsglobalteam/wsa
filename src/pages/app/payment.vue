@@ -104,6 +104,12 @@ const ccSchema: FormSchema = {
 const form = ref()
 const router = useRouter()
 const message = useMessage()
+function handleBack() {
+  if (state.is_for_maritime)
+    return router.push('/plan')
+
+  return router.push('/maritime')
+}
 function handleNext() {
   form.value.submit((errors) => {
     if (errors)
@@ -127,11 +133,9 @@ function handleNext() {
     </app-form>
     <n-divider />
     <div class="flex justify-between">
-      <router-link v-slot="{ navigate }" custom to="/plan">
-        <n-button size="large" @click="navigate">
-          Back
-        </n-button>
-      </router-link>
+      <n-button size="large" @click="handleBack">
+        Back
+      </n-button>
       <n-button size="large" type="primary" @click="handleNext">
         Next
       </n-button>

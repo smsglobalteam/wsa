@@ -204,7 +204,7 @@ function handleNext() {
   //   if (errors)
   //     return message.error('Please fill in all required fields.')
 
-  return router.push('/terms')
+  return router.push('/payment')
   // })
 }
 </script>
