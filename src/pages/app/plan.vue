@@ -1,167 +1,126 @@
 <script setup lang="tsx">
 import type { ComputedRef } from 'vue'
+import plans from '@/plans.json'
 import { useFormStore } from '@/utils/store'
 import type { FormSchema } from '@/components/app/form-items.vue'
 
 const { state } = useFormStore()
 
-// const types = ['Postpaid', 'Prepaid'].map((type) => {
-//   return {
-//     label: type,
-//     value: type,
-//   }
-// })
-//
-// const networks = [
-//   'Bivy',
-//   'Garmin',
-//   'SPOT',
-//   'Iridium',
-//   'Inmarsat',
-//   'Starlink',
-//   'Thuraya',
-//   'Pulsar VSAT',
-//   'Xgate',
-// ].map((network) => {
-//   return {
-//     label: network,
-//     value: network,
-//   }
-// })
-//
-// const terms = ['12 Months', 'Month to Month'].map((term) => {
-//   return {
-//     label: term,
-//     value: term,
-//   }
-// })
-//
-// const options = ['Sample 1', 'Sample 2', 'Sample 3'].map((option) => {
-//   return {
-//     label: option,
-//     value: option,
-//   }
-// })
-
-// function mockPlanGenerator() {
-//   const plans: {
-//     type: string
-//     network: string
-//     term: string
-//     name: string
-//   }[] = []
-//   types.forEach((type) => {
-//     networks.forEach((network) => {
-//       terms.forEach((term) => {
-//         [55, 75, 150, 250, 350].forEach((amount) => {
-//           plans.push({
-//             type: type.value,
-//             network: network.value,
-//             term: term.value,
-//             name: `Placeholder ${amount} ${term.label} ${network.label} ${type.label}`,
-//           })
-//         })
-//       })
-//     })
-//   })
-//   return plans
-// }
-
-// const plans = mockPlanGenerator()
-// const filteredPlans = computed(() => {
-//   return plans.filter((plan) => {
-//     return (
-//       plan.type === state?.type
-//       && plan.network === state?.network
-//       && plan.term === state?.term
-//     )
-//   }).map((plan) => {
-//     return {
-//       label: plan.name,
-//       value: plan.name,
-//     }
+// watch(
+//   [() => state.type, () => state.group, () => state.term],
+//   () => {
+//     state.plan = null
 //   },
-//   )
-// })
-
-// const rules: FormRules = {
-//   type: {
-//     required: true,
-//     message: 'Please select a type',
-//   },
-//   network: {
-//     required: true,
-//     message: 'Please select a network',
-//   },
-//   term: {
-//     required: true,
-//     message: 'Please select a term',
-//   },
-//   plan: {
-//     required: true,
-//     message: 'Please select a plan',
-//   },
-// }
-
-watch(
-  [() => state.type, () => state.network, () => state.term],
-  () => {
-    state.plan = null
-  },
-)
+// )
 
 const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
-  satellite_network: {
+  type: {
     type: 'select',
-    label: 'Satellite Network',
+    label: 'Type',
     span: 12,
-    options: [
-      { label: 'Bivy', value: 'Bivy' },
-      { label: 'Garmin', value: 'Garmin' },
-      { label: 'SPOT', value: 'SPOT' },
-      { label: 'Iridium', value: 'Iridium' },
-      { label: 'Inmarsat', value: 'Inmarsat' },
-      { label: 'Starlink', value: 'Starlink' },
-      { label: 'Thuraya', value: 'Thuraya' },
-      { label: 'Pulsar VSAT', value: 'Pulsar VSAT' },
-      { label: 'Xgate', value: 'Xgate' },
-    ],
+    options: [...new Set(plans.results.map(plan => plan.type))].map((option) => {
+      return {
+        label: option,
+        value: option,
+      }
+    }),
     rules: {
       required: true,
     },
   },
-  ...state.satellite_network && {
-    hardware_type: {
-      type: 'select',
-      label: 'Hardware Type',
-      span: 12,
-      options: ['HW Placeholder 1', 'HW Placeholder 2', 'HW Placeholder 3'].map((option) => {
-        return {
-          label: `${state.satellite_network} ${option}`,
-          value: `${state.satellite_network} ${option}`,
-        }
-      }),
-      rules: {
-        required: true,
-      },
+  group: {
+    type: 'select',
+    label: 'Group',
+    span: 12,
+    options: [...new Set(plans.results.filter(plan => plan.type === state.type).map(plan => plan.group))].map((option) => {
+      return {
+        label: option,
+        value: option,
+      }
+    }),
+    rules: {
+      required: true,
     },
   },
-  ...state.hardware_type && {
-    plan_family: {
-      type: 'select',
-      label: 'Plan Family',
-      span: 12,
-      options: ['PF Placeholder 1', 'PF Placeholder 2', 'PF Placeholder 3'].map((option) => {
-        return {
-          label: `${state.hardware_type} ${option}`,
-          value: `${state.hardware_type} ${option}`,
-        }
-      }),
-      rules: {
-        required: true,
-      },
+  plan: {
+    type: 'select',
+    label: 'Plan',
+    span: 12,
+    options: [...new Set(plans.results.filter(plan => plan.group === state.group).map(plan => plan.plan))].map((option) => {
+      return {
+        label: option,
+        value: option,
+      }
+    }),
+    rules: {
+      required: true,
     },
   },
+  term: {
+    type: 'select',
+    label: 'Contract Period',
+    span: 12,
+    options: [...new Set(plans.results.filter(plan => plan.group === state.group).map(plan => plan.contract))].map((option) => {
+      return {
+        label: option,
+        value: option,
+      }
+    }),
+    rules: {
+      required: true,
+    },
+  },
+  // satellite_network: {
+  //   type: 'select',
+  //   label: 'Satellite Network',
+  //   span: 12,
+  //   options: [
+  //     { label: 'Bivy', value: 'Bivy' },
+  //     { label: 'Garmin', value: 'Garmin' },
+  //     { label: 'SPOT', value: 'SPOT' },
+  //     { label: 'Iridium', value: 'Iridium' },
+  //     { label: 'Inmarsat', value: 'Inmarsat' },
+  //     { label: 'Starlink', value: 'Starlink' },
+  //     { label: 'Thuraya', value: 'Thuraya' },
+  //     { label: 'Pulsar VSAT', value: 'Pulsar VSAT' },
+  //     { label: 'Xgate', value: 'Xgate' },
+  //   ],
+  //   rules: {
+  //     required: true,
+  //   },
+  // },
+  // ...state.satellite_network && {
+  //   hardware_type: {
+  //     type: 'select',
+  //     label: 'Hardware Type',
+  //     span: 12,
+  //     options: ['HW Placeholder 1', 'HW Placeholder 2', 'HW Placeholder 3'].map((option) => {
+  //       return {
+  //         label: `${state.satellite_network} ${option}`,
+  //         value: `${state.satellite_network} ${option}`,
+  //       }
+  //     }),
+  //     rules: {
+  //       required: true,
+  //     },
+  //   },
+  // },
+  // ...state.hardware_type && {
+  //   plan_family: {
+  //     type: 'select',
+  //     label: 'Plan Family',
+  //     span: 12,
+  //     options: ['PF Placeholder 1', 'PF Placeholder 2', 'PF Placeholder 3'].map((option) => {
+  //       return {
+  //         label: `${state.hardware_type} ${option}`,
+  //         value: `${state.hardware_type} ${option}`,
+  //       }
+  //     }),
+  //     rules: {
+  //       required: true,
+  //     },
+  //   },
+  // },
   sim_number: {
     type: 'input',
     label: 'SIM Number',
@@ -223,7 +182,7 @@ function handleNext() {
       <div class="text-center">
         <n-h1>Select Plan</n-h1>
         <n-p class="!mb-6">
-          Information about the service and equipment you’re applying for. You can find out more about plans at <n-a>pivotel.com</n-a>
+          Information about the service and equipment you’re applying for. You can find out more about plans at <n-a>pulsarbeyond.com</n-a>
         </n-p>
 
         <!--        <app-form-h2> -->

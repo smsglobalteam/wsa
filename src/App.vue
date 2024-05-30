@@ -3,12 +3,13 @@ import type { GlobalThemeOverrides } from 'naive-ui'
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
-    primaryColor: '#87179d',
-    primaryColorPressed: '#5b0f6a',
-    primaryColorHover: '#a24ab2',
-    primaryColorSuppl: '#a24ab2',
+    primaryColor: '#1780E7',
+    primaryColorPressed: '#0066BB',
+    primaryColorHover: '#4B9BEC',
+    primaryColorSuppl: '#4B9BEC',
     borderColor: '#909090',
     inputColor: '#f1f4ff',
+    fontFamily: 'SwissNow, sans-serif',
   },
   Typography: {
     headerFontSize1: '26px',

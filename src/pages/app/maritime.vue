@@ -215,7 +215,7 @@ function handleNext() {
       Maritime Terminal and Vessel Information
     </n-h1>
     <n-p class="text-center">
-      Please complete this form if you are planning to use your Pivotel provided service(s) for Maritime.
+      Please complete this form if you are planning to use your Pulsar provided service(s) for Maritime.
     </n-p>
     <app-form ref="form" :model="state">
       <app-form-h2>

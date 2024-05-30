@@ -7,18 +7,18 @@ const formValue = useLocalStorage('wsa-', {})
     <div class="flex flex-col items-center text-center">
       <n-h1>Welcome!</n-h1>
       <n-p>
-        Welcome to the Pivotel Satellite Service Application.
+        Welcome to the Pulsar Satellite Service Application.
       </n-p>
       <n-p>
-        Activate your satellite devices with Pivotel service. Need a satellite phone or terminal? Visit
+        Activate your satellite devices with Pulsar service. Need a satellite phone or terminal? Visit
         <!-- eslint-disable-next-line -->
-        <n-text underline><n-a href="https://www.pivotel.com">pivotel.com</n-a></n-text>.
-        Satellite devices are typically activated within 24 hours, upon activation, you will receive an email from a pivotel.com address with confirmation. Thank you for choosing Pivotel.
+        <n-text underline><n-a href="https://www.pulsarbeyond.com">pulsarbeyond.com</n-a></n-text>.
+        Satellite devices are typically activated within 24 hours, upon activation, you will receive an email from a pulsarbeyond.com address with confirmation. Thank you for choosing Pulsar.
       </n-p>
       <n-p>
         If we can be of further help, Contact Us <n-text underline>
-          <n-a href="https://www.pivotel.com/contact-us">
-            pivotel.com/contact-us
+          <n-a href="https://www.pulsarbeyond.com/contact-us">
+            pulsarbeyond.com/contact-us
           </n-a>
         </n-text>
       </n-p>
@@ -26,8 +26,8 @@ const formValue = useLocalStorage('wsa-', {})
         <n-li>
           Email:
           <n-text underline>
-            <n-a href="mailto:activations@pivotel.com">
-              activations@pivotel.com
+            <n-a href="mailto:activations@pulsarbeyond.com">
+              activations@pulsarbeyond.com
             </n-a>
           </n-text>
         </n-li>

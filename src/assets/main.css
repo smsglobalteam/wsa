@@ -1,15 +1,22 @@
 @font-face {
-    font-family: 'Proxima Nova';
-    src: url('/fonts/proximanova-semibold.woff') format('woff');
-    font-weight: 600;
+    font-family: 'SwissNow';
     font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/SwissNow-Regular.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: 'Proxima Nova';
-    src: url('/fonts/proximanova-bold.woff') format('woff');
-    font-weight: 700;
+    font-family: 'SwissNow';
     font-style: normal;
+    font-weight: 500;
+    src: url('./fonts/SwissNow-Medium.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'SwissNow';
+    font-style: normal;
+    font-weight: 700;
+    src: url('./fonts/SwissNow-Bold.woff2') format('woff2');
 }
 
 @tailwind base;
@@ -17,9 +24,13 @@
 @tailwind components;
 
 .font-semibold {
-    font-family: "Proxima Nova";
+    font-family: "SwissNow", sans-serif;
 }
 
 .font-bold, h1, h2, h3 {
-    font-family: "Proxima Nova";
+    font-family: "SwissNow", sans-serif;
+}
+
+body {
+    font-family: "SwissNow", sans-serif !important;
 }

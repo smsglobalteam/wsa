@@ -122,7 +122,7 @@ const personalInformationSchema: FormSchema = {
   },
   sign_up_marketing: {
     type: 'checkbox',
-    label: 'Opt in to receive news and product information from Pivotel',
+    label: 'Opt in to receive news and product information from Pulsar',
     span: 6,
   },
 }
@@ -369,7 +369,7 @@ const shippingAddressSchema: ComputedRef<FormSchema> = computed(() => {
 //     label: 'Equipment Provider',
 //     span: 6,
 //     options: [
-//       { label: 'Pivotel', value: 'Pivotel' },
+//       { label: 'Pulsar', value: 'Pulsar' },
 //       { label: 'Other', value: 'Other' },
 //     ],
 //     rules: {

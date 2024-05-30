@@ -7,8 +7,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#87179d',
+        primary: '#1780E7',
       },
+    },
+    fontFamily: {
+      sans: ['SwissNow', 'sans-serif'],
     },
   },
   plugins: [],
