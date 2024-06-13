@@ -14,25 +14,11 @@ const { state } = useFormStore()
 // )
 
 const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
-  type: {
-    type: 'select',
-    label: 'Type',
-    span: 12,
-    options: [...new Set(plans.results.map(plan => plan.type))].map((option) => {
-      return {
-        label: option,
-        value: option,
-      }
-    }),
-    rules: {
-      required: true,
-    },
-  },
   group: {
     type: 'select',
     label: 'Group',
     span: 12,
-    options: [...new Set(plans.results.filter(plan => plan.type === state.type).map(plan => plan.group))].map((option) => {
+    options: [...new Set(plans.results.filter(plan => plan.type === 'Retail').map(plan => plan.group))].map((option) => {
       return {
         label: option,
         value: option,
@@ -70,57 +56,6 @@ const serviceSchema: ComputedRef<FormSchema> = computed(() => ({
       required: true,
     },
   },
-  // satellite_network: {
-  //   type: 'select',
-  //   label: 'Satellite Network',
-  //   span: 12,
-  //   options: [
-  //     { label: 'Bivy', value: 'Bivy' },
-  //     { label: 'Garmin', value: 'Garmin' },
-  //     { label: 'SPOT', value: 'SPOT' },
-  //     { label: 'Iridium', value: 'Iridium' },
-  //     { label: 'Inmarsat', value: 'Inmarsat' },
-  //     { label: 'Starlink', value: 'Starlink' },
-  //     { label: 'Thuraya', value: 'Thuraya' },
-  //     { label: 'Pulsar VSAT', value: 'Pulsar VSAT' },
-  //     { label: 'Xgate', value: 'Xgate' },
-  //   ],
-  //   rules: {
-  //     required: true,
-  //   },
-  // },
-  // ...state.satellite_network && {
-  //   hardware_type: {
-  //     type: 'select',
-  //     label: 'Hardware Type',
-  //     span: 12,
-  //     options: ['HW Placeholder 1', 'HW Placeholder 2', 'HW Placeholder 3'].map((option) => {
-  //       return {
-  //         label: `${state.satellite_network} ${option}`,
-  //         value: `${state.satellite_network} ${option}`,
-  //       }
-  //     }),
-  //     rules: {
-  //       required: true,
-  //     },
-  //   },
-  // },
-  // ...state.hardware_type && {
-  //   plan_family: {
-  //     type: 'select',
-  //     label: 'Plan Family',
-  //     span: 12,
-  //     options: ['PF Placeholder 1', 'PF Placeholder 2', 'PF Placeholder 3'].map((option) => {
-  //       return {
-  //         label: `${state.hardware_type} ${option}`,
-  //         value: `${state.hardware_type} ${option}`,
-  //       }
-  //     }),
-  //     rules: {
-  //       required: true,
-  //     },
-  //   },
-  // },
   sim_number: {
     type: 'input',
     label: 'SIM Number',
